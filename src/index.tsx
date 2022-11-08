@@ -3,14 +3,34 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import createCache from '@emotion/cache';
+import { createRoot } from 'react-dom/client';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement!);
+
+export const theme = createTheme({
+  components: {
+    MuiPopover: {
+      defaultProps: {
+        container: rootElement,
+      },
+    },
+    MuiPopper: {
+      defaultProps: {
+        container: rootElement,
+      },
+    },
+  },
+});
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </StyledEngineProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
